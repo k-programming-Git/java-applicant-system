@@ -25,12 +25,21 @@ public class Applicant {
     public String getStatus() {
         return this.status;
     }
-    public String GetName() {
+    public String getName() {
         return this.name;
+    }
+
+    public int getAge() {
+    return this.age;
+    }
+
+    public String getSkill() {
+    return this.skill;
     }
 
     public static void printCount() {
         System.out.println("応募者数" + count);
     }
+    
     }
     

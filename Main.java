@@ -1,5 +1,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.FileWriter;
+import java.io.IOException;
 class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -21,9 +23,16 @@ class Main {
 
         Applicant.printCount();
 
+        ArrayList<Applicant> applicants = new ArrayList<>();
+
+        applicants.add(applicant1);
+        applicants.add(applicant2);
+        applicants.add(applicant3);
+
         boolean running = true;
 
         while(running) {
+            System.out.println("6: ファイル保存");
             System.out.println("5: ステータス更新");
             System.out.println("4: 応募者削除");
             System.out.println("3: 名前検索");
@@ -37,10 +46,11 @@ class Main {
             switch(menu) {
                 case 1:
                     for(Applicant applicant : applicants) {
-                        aapplicant.printData();
+                        applicant.printData();
                         System.out.println("----------");
                     }
                     break;
+                    
                 case 2:
                     System.out.println("名前：");
                     String newName = scanner.next();
@@ -92,7 +102,7 @@ class Main {
                     boolean deleted = false;
 
                     for(int i = 0; i < applicants.size(); i++) {
-                        if(applicants.getName().equals(deleteName)) {
+                        if(applicants.get(i).getName().equals(deleteName)) {
                             applicants.remove(i);
                             System.out.println("削除しました");
                             deleted = true;
@@ -102,7 +112,7 @@ class Main {
                     }
 
                     if(!deleted) {
-                        System.out.prinln("該当する応募者がいません");
+                        System.out.println("該当する応募者がいません");
                     }
 
                     break;
@@ -117,9 +127,9 @@ class Main {
                             if(applicant.getName().equals(updateName)){
 
                                 System.out.print("新しいステータス：");
-                                String newStatus = scanner.next();
+                                String updatedStatus = scanner.next();
 
-                                applicant.changeStatus(newStatus);
+                                applicant.changeStatus(updatedStatus);
 
                                 System.out.println("ステータスを更新しました");
 
@@ -135,8 +145,38 @@ class Main {
 
                         break;
 
+                        case 6:
+
+                        try {
+
+                        FileWriter writer =
+                        new FileWriter("applicants.txt");
+
+                        for(Applicant applicant : applicants) {
+
+                        writer.write(
+                        applicant.getName() + ","
+                        + applicant.getAge() + ","
+                        + applicant.getStatus() + ","
+                        + applicant.getSkill()
+                        + "\n"
+                        );
+                    }
+
+                    writer.close();
+
+                    System.out.println("保存しました");
+
+                    } catch(IOException e) {
+
+                    System.out.println("ファイル保存エラー");
+                }
+
+                break;
+                
+
                 case 0:
-                    runnning = false;
+                    running = false;
 
                     System.out.println("終了します");
                     break;
@@ -144,28 +184,7 @@ class Main {
                 default:
                     System.out.println("正しい番号を入力してください");
             }
-        }
-
-
-        ArrayList<Applicant> applicants = new ArrayList<>();
-        
-        applicants.add(applicant1);
-        applicants.add(applicant2);
-        applicants.add(applicant3);
-
-        for(Applicant applicant : applicants) {
-            applicant.printData();
-            System.out.println("-----------");
-        }
-        System.out.println("【面接関連の応募者】");
-        for(Applicant applicant : applicants) {
-            if(applicant.getStatus().equals("面接中")
-                || 
-            applicant.getStatus().equals("面接予定")) {
-                applicant.printData();
-                System.out.println("--------");
-            }
-        }
+        }        
     }
 
 }
