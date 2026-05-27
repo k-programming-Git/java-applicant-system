@@ -24,6 +24,8 @@ class Main {
         boolean running = true;
 
         while(running) {
+            System.out.println("5: ステータス更新");
+            System.out.println("4: 応募者削除");
             System.out.println("3: 名前検索");
             System.out.println("2: 応募者追加");
             System.out.println("1: 一覧表示");
@@ -81,6 +83,57 @@ class Main {
                     }
 
                     break;
+
+                    case 4:
+
+                    System.out.print("削除する名前：");
+                    String deleteName = scanner.next();
+
+                    boolean deleted = false;
+
+                    for(int i = 0; i < applicants.size(); i++) {
+                        if(applicants.getName().equals(deleteName)) {
+                            applicants.remove(i);
+                            System.out.println("削除しました");
+                            deleted = true;
+
+                            break;
+                        }
+                    }
+
+                    if(!deleted) {
+                        System.out.prinln("該当する応募者がいません");
+                    }
+
+                    break;
+
+                    case 5:
+                        System.out.print("更新する名前：");
+                        String updateName = scanner.next();
+
+                        boolean updated = false;
+
+                        for(Applicant applicant : applicants) {
+                            if(applicant.getName().equals(updateName)){
+
+                                System.out.print("新しいステータス：");
+                                String newStatus = scanner.next();
+
+                                applicant.changeStatus(newStatus);
+
+                                System.out.println("ステータスを更新しました");
+
+                                updated = true;
+
+                                break;
+                            }
+                        }
+
+                        if(!updated) {
+                            System.out.println("該当する応募者がいません");
+                        }
+
+                        break;
 
                 case 0:
                     runnning = false;
