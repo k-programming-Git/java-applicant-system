@@ -25,6 +25,9 @@ public class Applicant {
     public String getStatus() {
         return this.status;
     }
+    public String GetName() {
+        return this.name;
+    }
 
     public static void printCount() {
         System.out.println("応募者数" + count);

@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -20,21 +21,95 @@ class Main {
 
         Applicant.printCount();
 
-        Applicant[] applicants = new Applicant[3];
-        applicants[0] = applicant1;
-        applicants[1] = applicant2;
-        applicants[2] = applicant3;
+        boolean running = true;
 
-        for(int i = 0; i < applicants.length; i++) {
-            applicants[i].printData();
+        while(running) {
+            System.out.println("3: 名前検索");
+            System.out.println("2: 応募者追加");
+            System.out.println("1: 一覧表示");
+            System.out.println("0: 終了");
+            System.out.println("番号を入力してください");
+
+            int menu = scanner.nextInt();
+
+            switch(menu) {
+                case 1:
+                    for(Applicant applicant : applicants) {
+                        aapplicant.printData();
+                        System.out.println("----------");
+                    }
+                    break;
+                case 2:
+                    System.out.println("名前：");
+                    String newName = scanner.next();
+
+                    System.out.println("年齢：");
+                    int newAge = scanner.nextInt();
+
+                    System.out.print("応募状況：");
+                    String newStatus = scanner.next();
+
+                    System.out.print("スキル：");
+                    String newSkill = scanner.next();
+
+                    Applicant newApplicant = new Applicant(newName, newAge, newStatus, newSkill);
+
+                    applicants.add(newApplicant);
+
+                    System.out.println("応募者を追加しました");
+
+                    break;
+
+                case 3:
+                    System.out.print("検索名：");
+                    String searchName = scanner.next();
+
+                    boolean found = false;
+
+                    for(Applicant applicant : applicants) {
+                        if(applicant.getName().equals(searchName)) {
+
+                            applicant.printData();
+                            System.out.println("-------");
+
+                            found = true;
+                        }
+                    }
+
+                    if(!found) {
+                         System.out.println("該当する応募者がいません");
+                    }
+
+                    break;
+
+                case 0:
+                    runnning = false;
+
+                    System.out.println("終了します");
+                    break;
+
+                default:
+                    System.out.println("正しい番号を入力してください");
+            }
+        }
+
+
+        ArrayList<Applicant> applicants = new ArrayList<>();
+        
+        applicants.add(applicant1);
+        applicants.add(applicant2);
+        applicants.add(applicant3);
+
+        for(Applicant applicant : applicants) {
+            applicant.printData();
             System.out.println("-----------");
         }
         System.out.println("【面接関連の応募者】");
-        for(int i = 0; i < applicants.length; i++) {
-            if(applicants[i].getStatus().equals("面接中")
+        for(Applicant applicant : applicants) {
+            if(applicant.getStatus().equals("面接中")
                 || 
-            applicants[i].getStatus().equals("面接予定")) {
-                applicants[i].printData();
+            applicant.getStatus().equals("面接予定")) {
+                applicant.printData();
                 System.out.println("--------");
             }
         }
