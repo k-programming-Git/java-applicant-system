@@ -2,33 +2,46 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.File;
 class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("名前を入力してください：");
-        String name = scanner.next();
-        System.out.print("年齢を入力してください：");
-        int age = scanner.nextInt();
-        System.out.print("応募状況を入力してください：");
-        String status = scanner.next();
-        System.out.print("スキルを入力してください：");
-        String skill = scanner.next();
-        Applicant applicant3 = new Applicant(name, age, status, skill);
         
-        Applicant applicant1 = new Applicant("田中", 25, "応募中", "Java");
-        applicant1.changeStatus("面接中");
-        
-        Applicant applicant2 = new Applicant("佐藤", 23, "書類通過", "Excel VBA");
-        applicant2.changeStatus("面接予定");
-
-        Applicant.printCount();
-
         ArrayList<Applicant> applicants = new ArrayList<>();
 
-        applicants.add(applicant1);
-        applicants.add(applicant2);
-        applicants.add(applicant3);
+            File file = new File("applicants.txt");
 
+            if(file.exists()) {
+
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("applicants.txt"));
+            String line;
+            while((line = reader.readLine()) != null) {
+                if(line.isEmpty()) {
+                    continue;
+                    }
+                String[] data = line.split(",");
+
+                String fileName = data[0];
+                int fileAge = Integer.parseInt(data[1]);
+                String fileStatus = data[2];
+                String fileSkill = data[3];
+
+                Applicant applicant = new Applicant(fileName, fileAge, fileStatus, fileSkill);
+                applicants.add(applicant);
+            }
+
+            reader.close();
+        } catch(IOException e) {
+            System.out.println("ファイル読み込みエラー");
+        }
+    }
+
+        Applicant.printCount();
+        
         boolean running = true;
 
         while(running) {
@@ -42,6 +55,7 @@ class Main {
             System.out.println("番号を入力してください");
 
             int menu = scanner.nextInt();
+            scanner.nextLine();
 
             switch(menu) {
                 case 1:
@@ -53,16 +67,17 @@ class Main {
                     
                 case 2:
                     System.out.println("名前：");
-                    String newName = scanner.next();
+                    String newName = scanner.nextLine();
 
                     System.out.println("年齢：");
                     int newAge = scanner.nextInt();
+                    scanner.nextLine();
 
                     System.out.print("応募状況：");
-                    String newStatus = scanner.next();
+                    String newStatus = scanner.nextLine();
 
                     System.out.print("スキル：");
-                    String newSkill = scanner.next();
+                    String newSkill = scanner.nextLine();
 
                     Applicant newApplicant = new Applicant(newName, newAge, newStatus, newSkill);
 
@@ -74,7 +89,7 @@ class Main {
 
                 case 3:
                     System.out.print("検索名：");
-                    String searchName = scanner.next();
+                    String searchName = scanner.nextLine();
 
                     boolean found = false;
 
@@ -97,7 +112,7 @@ class Main {
                     case 4:
 
                     System.out.print("削除する名前：");
-                    String deleteName = scanner.next();
+                    String deleteName = scanner.nextLine();
 
                     boolean deleted = false;
 
@@ -119,7 +134,7 @@ class Main {
 
                     case 5:
                         System.out.print("更新する名前：");
-                        String updateName = scanner.next();
+                        String updateName = scanner.nextLine();
 
                         boolean updated = false;
 
@@ -127,7 +142,7 @@ class Main {
                             if(applicant.getName().equals(updateName)){
 
                                 System.out.print("新しいステータス：");
-                                String updatedStatus = scanner.next();
+                                String updatedStatus = scanner.nextLine();
 
                                 applicant.changeStatus(updatedStatus);
 
