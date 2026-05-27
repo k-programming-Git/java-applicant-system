@@ -1,27 +1,24 @@
-# Java Applicant System
+# Java Applicant Management System
 
 Javaで作成した応募者管理システムです。
 
 ## 機能
 
-- 応募者情報の登録
-- 応募状況の変更
-- 面接対象者の抽出表示
-- 応募者数のカウント
-
-## 学習内容
-
-- クラス
-- コンストラクタ
-- getter
-- 配列
-- Scanner
-- static
-- Git/GitHub
+- 応募者追加
+- 一覧表示
+- 名前検索
+- ステータス更新
+- 応募者削除
+- txtファイル保存
+- txtファイル読込
 
 ## 使用技術
 
 - Java
+- ArrayList
+- Scanner
+- FileWriter
+- BufferedReader
 
 ## 実行方法
 
