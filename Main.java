@@ -9,7 +9,8 @@ class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         
-        ArrayList<Applicant> applicants = new ArrayList<>();
+        ApplicantManager manager = new ApplicantManager();
+        ArrayList<Applicant> applicants = manager.getApplicants();
   
         loadFromFile(applicants);
         Applicant.printCount();
@@ -23,11 +24,8 @@ class Main {
 
             switch(menu) {
                 case 1:
-                    for(Applicant applicant : applicants) {
-                        applicant.printData();
-                        System.out.println("----------");
-                    }
-                    break;
+                   manager.showApplicants();
+                   break;
                     
                 case 2:
                     addApplicant(scanner, applicants);
@@ -38,11 +36,15 @@ class Main {
                     searchApplicant(scanner, applicants);
                     break;
 
-                    case 4:
-                        deleteApplicant(scanner, applicants);
-                        break;
+                case 4:
 
-                    case 5:
+                    System.out.print("削除する名前：");
+
+                    String deleteName = scanner.nextLine();
+                        manager.deleteApplicant(deleteName);
+                    break;
+
+                case 5:
                         updateApplicant(scanner, applicants);
                         break;
 
@@ -52,7 +54,7 @@ class Main {
 
                         break;
 
-                    case 0:
+                case 0:
                         running = false;
 
                         System.out.println("終了します");
@@ -207,35 +209,7 @@ public static void searchApplicant(
         System.out.println("該当する応募者がいません");
     }
 }
-public static void deleteApplicant(
-    Scanner scanner,
-    ArrayList<Applicant> applicants
-) {
 
-    System.out.print("削除する名前：");
-    String deleteName = scanner.nextLine();
-
-    boolean deleted = false;
-
-    for(int i = 0; i < applicants.size(); i++) {
-
-        if(applicants.get(i).getName().equals(deleteName)) {
-
-            applicants.remove(i);
-
-            System.out.println("削除しました");
-
-            deleted = true;
-
-            break;
-        }
-    }
-
-    if(!deleted) {
-
-        System.out.println("該当する応募者がいません");
-    }
-}
 public static void updateApplicant(
     Scanner scanner,
     ArrayList<Applicant> applicants
@@ -274,5 +248,6 @@ public static void updateApplicant(
         );
     }
 }
+
 
 }
