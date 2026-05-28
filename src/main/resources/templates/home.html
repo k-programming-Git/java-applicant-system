@@ -6,9 +6,24 @@
 
 <h2>応募者一覧</h2>
 
+<form action="/add" method="get">
+
+    <input type="text" name="name">
+
+    <button type="submit">追加</button>
+
+</form>
+
 <div th:each="applicant : ${applicants}">
+
     <span th:text="${applicant.name}"></span>
+
+    <a th:href="@{/delete(id=${applicant.id})}">
+        削除
+    </a>
+
     <br>
+
 </div>
 
 </body>
