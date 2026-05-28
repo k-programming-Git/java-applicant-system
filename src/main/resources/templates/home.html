@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Applicant System</h1>
+
+<h2>応募者一覧</h2>
+
+<div th:each="applicant : ${applicants}">
+    <span th:text="${applicant.name}"></span>
+    <br>
+</div>
+
+</body>
+</html>
