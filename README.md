@@ -1,27 +1,38 @@
-# Java Applicant Management System
+# Applicant Management System
 
-Javaで作成した応募者管理システムです。
+Spring Bootで作成した応募者管理システムです。
 
 ## 機能
 
-- 応募者追加
-- 一覧表示
-- 名前検索
-- ステータス更新
-- 応募者削除
-- txtファイル保存
-- txtファイル読込
+* 応募者追加
+* 応募者一覧表示
+* 名前検索
+* 名前順ソート
+* 応募者編集
+* 応募者削除
 
 ## 使用技術
 
-- Java
-- ArrayList
-- Scanner
-- FileWriter
-- BufferedReader
+* Java
+* Spring Boot
+* Spring Data JPA
+* Thymeleaf
+* H2 Database
+* HTML / CSS
 
 ## 実行方法
 
-```bash
-javac Main.java Applicant.java
-java Main
+bash
+./mvnw spring-boot:run
+
+
+ブラウザから以下にアクセス
+
+text
+http://localhost:8080
+
+
+## 説明
+
+Spring Data JPAを使用してデータベース操作を実装し、Thymeleafで画面表示を行っています。
+応募者の追加・編集・削除・検索をWeb画面から操作できます。

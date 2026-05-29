@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>編集画面</h1>
+
+<form action="/update">
+
+    <input
+        type="hidden"
+        name="id"
+        th:value="${applicant.id}"
+    >
+
+    <input
+        type="text"
+        name="name"
+        th:value="${applicant.name}"
+    >
+
+    <button>
+        保存
+    </button>
+
+</form>
+
+</body>
+</html>
