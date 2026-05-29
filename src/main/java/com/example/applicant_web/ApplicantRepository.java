@@ -13,6 +13,9 @@ extends JpaRepository<Applicant, Long> {
 // JpaRepositoryが親インターフェイスで、子はApplicantRepository
 // JpaRepositoryが有してる、repository.save();などのメソッドの能力を、子のApplicant.repositoryが受け継いだから、repository.save()は定義なしで呼び出せる。
 
+//ここで「このRepositoryはApplicantを扱います」と宣言しているため、Repositoryは引数にapplicantを受け取らなければいけないStringを受け取ってはいけない
+//このRepositoryはApplicantを扱います」と宣言しているのはこの部分　JpaRepository<Applicant, Long>
+  
 List<Applicant> findAllByOrderByNameAsc();
 //FindAllで全部取得して名前順にする
 
