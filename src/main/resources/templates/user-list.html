@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ID管理</title>
+<style>
+body{ font-family: Arial; margin:40px; background:#f5f5f5; }
+table{ border-collapse:collapse; width:500px; background:white; }
+th,td{ padding:10px; text-align:left; border-bottom:1px solid #ddd; }
+th{ background:#eeeeee; }
+</style>
+</head>
+<body>
+
+<h1>ID管理</h1>
+
+<p><a th:href="@{/users/new}">新規登録</a></p>
+
+<table>
+<tr>
+    <th>IDコード</th>
+    <th>ユーザー名</th>
+</tr>
+<tr th:each="user : ${users}">
+    <td th:text="${user.userCd}"></td>
+    <td th:text="${user.userName}"></td>
+</tr>
+</table>
+
+<p th:if="${#lists.isEmpty(users)}">登録されているIDはありません</p>
+
+<p><a href="/">応募者一覧へ戻る</a></p>
+
+</body>
+</html>

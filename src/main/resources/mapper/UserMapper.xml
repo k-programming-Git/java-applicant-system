@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.applicant_web.UserMapper">
+
+    <select id="findAll" resultType="com.example.applicant_web.User">
+        SELECT id, user_cd, user_name
+        FROM users
+        ORDER BY user_cd ASC
+    </select>
+
+    <!-- 追加したあと、自動採番されたidをUserのidに入れる -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (user_cd, user_name)
+        VALUES (#{userCd}, #{userName})
+    </insert>
+
+</mapper>
