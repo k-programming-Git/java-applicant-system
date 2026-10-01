@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -37,7 +38,31 @@ public class UserController {
         try {
             service.add(user);
         } catch (IllegalArgumentException e) {
-            // 入力に問題があったので、入力した値を残したまま、フォームをもう一度表示する
+            model.addAttribute("message", e.getMessage());
+            return "user-form";
+        }
+        return "redirect:/users";
+    }
+
+    // 編集フォームを表示(GET /users/{id}/edit)
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable Long id, Model model) {
+        try {
+            model.addAttribute("user", service.findById(id));
+        } catch (IllegalArgumentException e) {
+            // 存在しないidなら、一覧に戻す
+            return "redirect:/users";
+        }
+        return "user-form";
+    }
+
+    // 更新する(POST /users/{id})
+    @PostMapping("/{id}")
+    public String update(@PathVariable Long id, @ModelAttribute User user, Model model) {
+        user.setId(id); // URLのidを、Userにセットする
+        try {
+            service.update(user);
+        } catch (IllegalArgumentException e) {
             model.addAttribute("message", e.getMessage());
             return "user-form";
         }

@@ -10,10 +10,23 @@
         ORDER BY user_cd ASC
     </select>
 
+    <select id="findById" resultType="com.example.applicant_web.User">
+        SELECT id, user_cd, user_name
+        FROM users
+        WHERE id = #{id}
+    </select>
+
     <!-- 追加したあと、自動採番されたidをUserのidに入れる -->
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO users (user_cd, user_name)
         VALUES (#{userCd}, #{userName})
     </insert>
+
+    <update id="update">
+        UPDATE users
+        SET user_cd = #{userCd},
+            user_name = #{userName}
+        WHERE id = #{id}
+    </update>
 
 </mapper>

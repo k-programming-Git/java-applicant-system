@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>ID登録</title>
+<title>ID管理</title>
 <style>
 body{ font-family: Arial; margin:40px; background:#f5f5f5; }
 label{ display:block; margin-top:15px; }
@@ -13,11 +13,13 @@ button{ margin-top:20px; padding:8px 14px; background:#3498db; color:white; bord
 </head>
 <body>
 
-<h1>ID登録</h1>
+<!-- user.id が null なら新規登録、値があれば編集 -->
+<h1 th:text="${user.id == null} ? 'ID登録' : 'ID編集'">ID登録</h1>
 
 <p class="message" th:if="${message}" th:text="${message}"></p>
 
-<form th:action="@{/users}" th:object="${user}" method="post">
+<form th:action="${user.id == null} ? @{/users} : @{/users/{id}(id=${user.id})}"
+      th:object="${user}" method="post">
 
     <label>IDコード</label>
     <input type="text" th:field="*{userCd}" maxlength="20">
@@ -26,7 +28,7 @@ button{ margin-top:20px; padding:8px 14px; background:#3498db; color:white; bord
     <input type="text" th:field="*{userName}" maxlength="100">
 
     <br>
-    <button type="submit">登録</button>
+    <button type="submit" th:text="${user.id == null} ? '登録' : '更新'">登録</button>
 </form>
 
 <p><a th:href="@{/users}">一覧へ戻る</a></p>
