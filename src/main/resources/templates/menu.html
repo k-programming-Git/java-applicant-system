@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ホーム</title>
+<style>
+body{ font-family: Arial; margin:40px; background:#f5f5f5; }
+.menu a{ display:block; width:240px; padding:16px; margin-bottom:12px; background:#3498db; color:white; text-align:center; text-decoration:none; border-radius:8px; }
+.menu a:hover{ opacity:0.8; }
+</style>
+</head>
+<body>
+
+<h1>採用管理システム</h1>
+<h2>ホーム</h2>
+
+<div class="menu">
+    <a th:href="@{/applicants}">応募者一覧</a>
+    <a th:href="@{/users}">ID管理</a>
+</div>
+
+</body>
+</html>

@@ -32,7 +32,7 @@ a{ margin-right:10px; text-decoration:none; }
 
 <p th:if="${#lists.isEmpty(users)}">登録されているIDはありません</p>
 
-<p><a href="/">応募者一覧へ戻る</a></p>
+<p><a th:href="@{/}">ホームへ戻る</a></p>
 
 </body>
 </html>

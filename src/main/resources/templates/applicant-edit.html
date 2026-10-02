@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>応募者の編集</title>
+</head>
+<body>
+
+<h1>編集画面</h1>
+
+<form th:action="@{/applicants/update}" method="get">
+
+    <input type="hidden" name="id" th:value="${applicant.id}">
+
+    <input type="text" name="name" th:value="${applicant.name}">
+
+    <button type="submit">保存</button>
+</form>
+
+<p><a th:href="@{/applicants}">一覧へ戻る</a></p>
+
+</body>
+</html>
