@@ -1,113 +1,274 @@
-# 採用管理システム(Applicant System)
+# 社員管理システム
 
-JavaとMySQLの学習のために作った、応募者とIDを管理するWebアプリです。
-Controller → Service → Mapper(MyBatis)→ MySQL の構成で、一覧・登録・編集・削除の一連の流れを実装しています。
+Java / Spring Boot / MyBatis / MySQL を使用して開発した社員管理Webアプリケーションです。
 
-## 機能
+社員情報の一覧表示、検索、登録、詳細表示、編集、論理削除までの一連の業務を実装しています。
 
-### 応募者管理(`/applicants`)
-- 応募者の一覧表示(名前順)
-- 名前による検索(部分一致)
-- 追加・編集・削除
+## 主な機能
 
-### ID管理(`/users`)
-- IDコードとユーザー名の一覧表示
-- 新規登録・編集(登録と編集で同じフォームを使用)
-- 入力チェック(IDコード・ユーザー名の必須チェック、IDコードの重複チェック)
+### 社員一覧・検索
+- 社員一覧の表示
+- 社員コードによる完全一致検索
+- 社員名による部分一致検索
+- 社員コードから社員詳細画面への遷移
+- 削除済み社員は一覧に表示しない
 
-### ホーム(`/`)
-- 応募者管理とID管理へのメニュー画面
+### 社員登録
+- 社員コード
+- 社員名
+- メールアドレス
+- 入社日
+- 退職日
+
+の登録が可能です。
+
+入力値には Bean Validation を使用してチェックを行っています。
+
+また、未削除社員と同じ社員コードを登録した場合は登録せず、
+
+> この社員コードは既に登録されています。
+
+というエラーメッセージを社員登録画面に表示します。
+
+削除済み社員の社員コードは再利用できます。
+
+### 社員詳細
+- 社員コード
+- 社員名
+- メールアドレス
+- 入社日
+- 退職日
+
+を表示します。
+
+詳細画面から社員編集・社員削除を行えます。
+
+### 社員編集
+社員名、メールアドレス、入社日、退職日を編集できます。
+
+社員コードは変更不可としています。
+
+### 社員削除
+物理削除ではなく論理削除を採用しています。
+
+削除時には `deleted_at` と `updated_at` を更新し、削除済み社員を通常の一覧・詳細画面から除外します。
+
+### エラー画面
+存在しない社員IDや削除済み社員のURLへアクセスした場合は、エラー画面を表示します。
+
+---
 
 ## 使用技術
 
 - Java 21
 - Spring Boot 4.0.6
-- MyBatis(mybatis-spring-boot-starter 4.0.1)
-- MySQL 8.4
 - Thymeleaf
-- Maven(Maven Wrapper)
-
-## 構成
-
-```
-src/main/java/com/example/applicant_web
- ├ MenuController.java        ホーム画面
- ├ ApplicantController.java   応募者管理(Controller)
- ├ ApplicantService.java      応募者管理(Service)
- ├ ApplicantMapper.java       応募者管理(Mapper)
- ├ Applicant.java             応募者(Entity)
- ├ UserController.java        ID管理(Controller)
- ├ UserService.java           ID管理(Service)
- ├ UserMapper.java            ID管理(Mapper)
- └ User.java                  ID(Entity)
-
-src/main/resources
- ├ mapper/                    MyBatisのSQL(XML)
- ├ templates/                 画面(Thymeleaf)
- └ application.properties     設定
-```
-
-## 画面とURL
-
-| 画面 | URL |
-|---|---|
-| ホーム | `/` |
-| 応募者一覧 | `/applicants` |
-| ID一覧 | `/users` |
-| ID登録 | `/users/new` |
-| ID編集 | `/users/{id}/edit` |
-
-## 起動方法
-
-### 1. 前提
-
-- JDK 21
+- MyBatis
 - MySQL 8.4
+- Maven
+- Maven Wrapper
+- Bean Validation
 
-### 2. データベースの準備
+## システム構成
 
-MySQLにログインして、次を実行します。`任意のパスワード` の部分は、好きなものに置き換えてください。
-
-```sql
-CREATE DATABASE applicant_db DEFAULT CHARACTER SET utf8mb4;
-
-CREATE USER 'applicant_app'@'localhost' IDENTIFIED BY '任意のパスワード';
-GRANT ALL PRIVILEGES ON applicant_db.* TO 'applicant_app'@'localhost';
-
-USE applicant_db;
-
-CREATE TABLE applicants (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
-);
-
-CREATE TABLE users (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_cd VARCHAR(20) NOT NULL UNIQUE,
-    user_name VARCHAR(100) NOT NULL
-);
+```text
+Browser
+   ↓
+Controller
+   ↓
+Service
+   ↓
+Mapper (MyBatis)
+   ↓
+MySQL
 ```
 
-### 3. アプリの起動
+Controller → Service → Mapper → MySQL の構成で、各層の役割を分離しています。
 
-DBのパスワードは、ファイルに書かず環境変数で渡します。
+### 主なクラス
+
+```text
+src/main/java/com/example/applicant_web
+├── MenuController.java
+├── EmployeeController.java
+├── EmployeeService.java
+├── EmployeeMapper.java
+└── Employee.java
+```
+
+### MyBatis
+
+```text
+src/main/resources
+├── mapper
+│   └── EmployeeMapper.xml
+├── templates
+│   ├── menu.html
+│   ├── employee-list.html
+│   ├── employee-form.html
+│   ├── employee-detail.html
+│   ├── employee-edit.html
+│   └── error.html
+└── application.properties
+```
+
+## 画面・URL
+
+| 画面 | URL | 内容 |
+|---|---|---|
+| ホーム | `/` | メニュー画面 |
+| 社員一覧 | `/employees` | 社員一覧・検索 |
+| 社員登録 | `/employees/new` | 社員登録 |
+| 社員詳細 | `/employees/{id}` | 社員詳細 |
+| 社員編集 | `/employees/{id}/edit` | 社員情報編集 |
+| エラー | - | 社員が存在しない場合などに表示 |
+
+## データベース
+
+データベース名：
+
+```text
+applicant_db
+```
+
+アプリケーション用DBユーザー：
+
+```text
+applicant_app
+```
+
+### employeeテーブル
+
+主なカラム：
+
+| カラム | 内容 |
+|---|---|
+| `id` | 社員ID |
+| `employee_cd` | 社員コード |
+| `employee_name` | 社員名 |
+| `email` | メールアドレス |
+| `hire_date` | 入社日 |
+| `retire_date` | 退職日 |
+| `created_at` | 作成日時 |
+| `updated_at` | 更新日時 |
+| `deleted_at` | 削除日時 |
+| `active_employee_cd` | 未削除社員の社員コード重複チェック用 |
+
+社員コードについては、未削除社員のみ一意となるようDB側でも制約を設定しています。
+
+削除済み社員については `deleted_at` に日時を設定し、物理削除は行いません。
+
+## DBセットアップ
+
+SQLファイルは以下にあります。
+
+```text
+sql/01_create_employee.sql
+```
+
+MySQLでSQLを実行して、データベース・ユーザー・employeeテーブルを作成します。
+
+DBパスワードなどの認証情報は、ソースコードや `application.properties` に直接記載せず、環境変数 `DB_PASSWORD` を使用します。
+
+## アプリケーションの起動
+
+### 1. DBパスワードを環境変数に設定
+
+PowerShellで以下を実行します。
 
 ```powershell
-$env:DB_PASSWORD='上で設定したパスワード'
+$env:DB_PASSWORD='設定したDBパスワード'
+```
+
+### 2. Spring Bootを起動
+
+```powershell
 .\mvnw.cmd spring-boot:run
 ```
 
-起動したら、ブラウザで `http://localhost:8080` を開きます。
+### 3. ブラウザでアクセス
 
-## 工夫した点
+```text
+http://localhost:8080
+```
 
-- パスワードを `application.properties` に直接書かず、環境変数で渡すようにした
-- IDコードの重複は、DBの `UNIQUE` 制約で防ぎ、`DuplicateKeyException` を `IllegalArgumentException` に変換して、画面にメッセージを表示するようにした
-- ID管理の登録と編集で、同じフォーム(`user-form.html`)を使い回した
-- JPA + H2 で作った最初のバージョンを、現場で使われることの多いMyBatis + MySQL に置き換え、Controller → Service → Mapper の構成に整理した。
+## 実装したイベント
+
+| イベントID | 内容 |
+|---|---|
+| E_001 | 社員一覧表示 |
+| E_002 | 社員検索 |
+| E_003 | 社員登録画面表示 |
+| E_004 | 社員登録 |
+| E_005 | 社員詳細表示 |
+| E_006 | 社員編集画面表示 |
+| E_007 | 社員更新 |
+| E_008 | 社員論理削除 |
+
+## バリデーション
+
+社員登録・社員更新では Bean Validation を使用しています。
+
+主なチェック内容：
+
+- 社員コード：必須、20文字以下、英数字・ハイフン
+- 社員名：必須、100文字以下
+- メールアドレス：必須、メール形式、255文字以下
+- 入社日：必須
+- 退職日：任意
+
+また、HTMLの `input type="date"` と Java の `LocalDate` の形式を合わせるため、`yyyy-MM-dd` 形式で日付を扱っています。
+
+## 開発で工夫した点
+
+### 1. 論理削除
+
+社員データを物理削除せず、`deleted_at` を設定することで削除状態を管理しています。
+
+これにより、削除済み社員の社員コードを再利用できるようにしています。
+
+### 2. 社員コードの重複チェック
+
+DBのUNIQUE制約による重複エラーを `DuplicateKeyException` で受け取り、画面上に利用者向けのメッセージを表示しています。
+
+```text
+この社員コードは既に登録されています。
+```
+
+### 3. エラー画面
+
+存在しない社員や削除済み社員へアクセスした場合に、専用のエラー画面を表示するようにしています。
+
+### 4. 層を分けた構成
+
+Controller、Service、Mapperを分離し、それぞれの役割を明確にしています。
+
+```text
+Controller
+  ↓
+Service
+  ↓
+Mapper
+  ↓
+MySQL
+```
+
+## 設計資料
+
+開発時に以下の設計資料を作成しています。
+
+- 企画書
+- 要件定義書
+- 画面遷移図
+- 画面項目定義書
+- 画面一覧
+- テーブル定義書
+- イベント設計書
+- テスト仕様書
 
 ## 今後の予定
 
-- ID管理の削除・検索
-- 応募者の追加・削除を、GETからPOSTに変更
-- 入力チェックの拡充、排他制御
+- テスト仕様書の作成
+- テストケースに基づく動作確認
+- テスト結果の記録
+- 必要に応じた追加改善
