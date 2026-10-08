@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>社員詳細</title>
+<style>
+body{ font-family: Arial; margin:40px; background:#f5f5f5; }
+.detail-container{ width:600px; padding:20px; background:white; }
+.detail-row{ margin-bottom:15px; }
+.detail-row label{ display:inline-block; width:140px; }
+.buttons{ margin-top:20px; }
+.buttons a{
+    display:inline-block;
+    padding:8px 20px;
+    margin-right:10px;
+    text-decoration:none;
+    background:#eeeeee;
+}
+</style>
+</head>
+<body>
+
+<h1>社員詳細</h1>
+
+<div class="detail-container">
+
+    <div class="detail-row">
+        <label>社員コード</label>
+        <span th:text="${employee.employeeCd}"></span>
+    </div>
+
+    <div class="detail-row">
+        <label>社員名</label>
+        <span th:text="${employee.employeeName}"></span>
+    </div>
+
+    <div class="detail-row">
+        <label>メールアドレス</label>
+        <span th:text="${employee.email}"></span>
+    </div>
+
+    <div class="detail-row">
+        <label>入社日</label>
+        <span th:text="${#temporals.format(employee.hireDate, 'yyyy/MM/dd')}"></span>
+    </div>
+
+    <div class="detail-row">
+        <label>退職日</label>
+        <span th:text="${employee.retireDate != null ? #temporals.format(employee.retireDate, 'yyyy/MM/dd') : ''}"></span>
+    </div>
+
+    <div class="buttons">
+    <a th:href="@{/employees/{id}/edit(id=${employee.id})}">編集</a>
+
+    <form th:action="@{/employees/{id}/delete(id=${employee.id})}"
+          method="post"
+          style="display:inline;"
+          onsubmit="return confirm('この社員を削除しますか？');">
+        <button type="submit">削除</button>
+    </form>
+
+    <a th:href="@{/employees}">社員一覧へ戻る</a>
+    </div>
+
+</div>
+
+</body>
+</html>

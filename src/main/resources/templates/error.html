@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>エラー</title>
+<style>
+body{ font-family: Arial; margin:40px; background:#f5f5f5; }
+.error-container{
+    width:600px;
+    padding:20px;
+    background:white;
+}
+.message{
+    margin-bottom:20px;
+}
+.buttons a{
+    display:inline-block;
+    padding:8px 20px;
+    text-decoration:none;
+    background:#eeeeee;
+}
+</style>
+</head>
+<body>
+
+<h1>エラー</h1>
+
+<div class="error-container">
+
+    <div class="message" th:text="${message}"></div>
+
+    <div class="buttons">
+        <a th:href="@{/employees}">社員一覧へ戻る</a>
+    </div>
+
+</div>
+
+</body>
+</html>

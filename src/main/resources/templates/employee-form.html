@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>社員登録</title>
+<style>
+body{ font-family: Arial; margin:40px; background:#f5f5f5; }
+.form-container{ width:600px; padding:20px; background:white; }
+.form-row{ margin-bottom:15px; }
+.form-row label{ display:inline-block; width:140px; }
+.form-row input{ width:300px; padding:6px; }
+.error{ color:red; margin-top:5px; }
+.buttons{ margin-top:20px; }
+.buttons button,
+.buttons a{ padding:8px 20px; margin-right:10px; }
+</style>
+</head>
+<body>
+
+<h1>社員登録</h1>
+
+<div class="form-container">
+
+<form th:action="@{/employees}" th:object="${employee}" method="post">
+
+    <div class="form-row">
+        <label for="employeeCd">社員コード</label>
+        <input type="text"
+               id="employeeCd"
+               th:field="*{employeeCd}"
+               maxlength="20">
+
+        <div class="error"
+             th:if="${#fields.hasErrors('employeeCd')}"
+             th:errors="*{employeeCd}">
+        </div>
+        
+        <div class="error"
+             th:if="${duplicateError != null}"
+            th:text="${duplicateError}">
+        </div>
+
+    </div>
+
+    <div class="form-row">
+        <label for="employeeName">社員名</label>
+        <input type="text"
+               id="employeeName"
+               th:field="*{employeeName}"
+               maxlength="100">
+
+        <div class="error"
+             th:if="${#fields.hasErrors('employeeName')}"
+             th:errors="*{employeeName}">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <label for="email">メールアドレス</label>
+        <input type="email"
+               id="email"
+               th:field="*{email}"
+               maxlength="255">
+
+        <div class="error"
+             th:if="${#fields.hasErrors('email')}"
+             th:errors="*{email}">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <label for="hireDate">入社日</label>
+        <input type="date"
+               id="hireDate"
+               th:field="*{hireDate}">
+
+        <div class="error"
+             th:if="${#fields.hasErrors('hireDate')}"
+             th:errors="*{hireDate}">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <label for="retireDate">退職日</label>
+        <input type="date"
+               id="retireDate"
+               th:field="*{retireDate}">
+
+        <div class="error"
+             th:if="${#fields.hasErrors('retireDate')}"
+             th:errors="*{retireDate}">
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button type="submit">登録</button>
+        <a th:href="@{/employees}">社員一覧へ戻る</a>
+    </div>
+
+</form>
+
+</div>
+
+</body>
+</html>

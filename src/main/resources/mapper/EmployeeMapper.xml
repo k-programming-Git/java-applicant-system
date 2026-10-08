@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.applicant_web.EmployeeMapper">
+
+    <!-- E_002 社員検索 -->
+    <select id="findAll" resultType="com.example.applicant_web.Employee">
+        SELECT
+            id,
+            employee_cd,
+            employee_name,
+            email,
+            hire_date,
+            retire_date
+        FROM employee
+        WHERE deleted_at IS NULL
+
+        <if test="employeeCd != null and employeeCd != ''">
+            AND employee_cd = #{employeeCd}
+        </if>
+
+        <if test="employeeName != null and employeeName != ''">
+            AND employee_name LIKE CONCAT('%', #{employeeName}, '%')
+        </if>
+
+        ORDER BY employee_cd ASC
+    </select>
+
+    <!-- E_004 社員登録 -->
+    <insert id="insert"
+            parameterType="com.example.applicant_web.Employee"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO employee (
+            employee_cd,
+            employee_name,
+            email,
+            hire_date,
+            retire_date
+        )
+        VALUES (
+            #{employeeCd},
+            #{employeeName},
+            #{email},
+            #{hireDate},
+            #{retireDate}
+        )
+        
+    </insert>
+
+        <!-- E_005 社員詳細 -->
+    <select id="findById"
+            parameterType="long"
+            resultType="com.example.applicant_web.Employee">
+        SELECT
+            id,
+            employee_cd,
+            employee_name,
+            email,
+            hire_date,
+            retire_date
+        FROM employee
+        WHERE id = #{id}
+          AND deleted_at IS NULL
+    </select>
+
+        <!-- E_007 社員更新 -->
+    <update id="update"
+            parameterType="com.example.applicant_web.Employee">
+        UPDATE employee
+        SET
+            employee_name = #{employeeName},
+            email = #{email},
+            hire_date = #{hireDate},
+            retire_date = #{retireDate},
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+          AND deleted_at IS NULL
+    </update>
+
+        <!-- E_008 社員論理削除 -->
+    <update id="delete">
+        UPDATE employee
+        SET
+            deleted_at = CURRENT_TIMESTAMP,
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+          AND deleted_at IS NULL
+    </update>
+
+</mapper>
