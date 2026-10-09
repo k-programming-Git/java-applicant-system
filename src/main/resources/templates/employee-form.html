@@ -9,6 +9,30 @@ body{ font-family: Arial; margin:40px; background:#f5f5f5; }
 .form-row{ margin-bottom:15px; }
 .form-row label{ display:inline-block; width:140px; }
 .form-row input{ width:300px; padding:6px; }
+
+.form-input-wrapper{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+}
+
+.clear-button{
+    width:30px;
+    height:30px;
+    padding:0;
+    border:1px solid #ccc;
+    border-radius:50%;
+    background:#f5f5f5;
+    color:#555;
+    font-size:18px;
+    line-height:1;
+    cursor:pointer;
+}
+
+.clear-button:hover{
+    background:#e0e0e0;
+}
+
 .error{ color:red; margin-top:5px; }
 .buttons{ margin-top:20px; }
 .buttons button,
@@ -23,31 +47,45 @@ body{ font-family: Arial; margin:40px; background:#f5f5f5; }
 
 <form th:action="@{/employees}" th:object="${employee}" method="post">
 
+    
+    
     <div class="form-row">
         <label for="employeeCd">社員コード</label>
-        <input type="text"
-               id="employeeCd"
-               th:field="*{employeeCd}"
-               maxlength="20">
+        <span class="form-input-wrapper">
+            <input type="text"
+                   id="employeeCd"
+                   th:field="*{employeeCd}"
+                   maxlength="20">
+            <button type="button"
+                    class="clear-button"
+                    aria-label="社員コードをクリア"
+                    onclick="clearFormInput('employeeCd')">×</button>
+        </span>
 
         <div class="error"
              th:if="${#fields.hasErrors('employeeCd')}"
              th:errors="*{employeeCd}">
         </div>
-        
+
         <div class="error"
              th:if="${duplicateError != null}"
-            th:text="${duplicateError}">
+             th:text="${duplicateError}">
         </div>
-
     </div>
 
+    
     <div class="form-row">
         <label for="employeeName">社員名</label>
-        <input type="text"
-               id="employeeName"
-               th:field="*{employeeName}"
-               maxlength="100">
+        <span class="form-input-wrapper">
+            <input type="text"
+                   id="employeeName"
+                   th:field="*{employeeName}"
+                   maxlength="100">
+            <button type="button"
+                    class="clear-button"
+                    aria-label="社員名をクリア"
+                    onclick="clearFormInput('employeeName')">×</button>
+        </span>
 
         <div class="error"
              th:if="${#fields.hasErrors('employeeName')}"
@@ -55,12 +93,21 @@ body{ font-family: Arial; margin:40px; background:#f5f5f5; }
         </div>
     </div>
 
+
+
+    
     <div class="form-row">
         <label for="email">メールアドレス</label>
-        <input type="email"
-               id="email"
-               th:field="*{email}"
-               maxlength="255">
+        <span class="form-input-wrapper">
+            <input type="email"
+                   id="email"
+                   th:field="*{email}"
+                   maxlength="255">
+            <button type="button"
+                    class="clear-button"
+                    aria-label="メールアドレスをクリア"
+                    onclick="clearFormInput('email')">×</button>
+        </span>
 
         <div class="error"
              th:if="${#fields.hasErrors('email')}"
@@ -68,11 +115,18 @@ body{ font-family: Arial; margin:40px; background:#f5f5f5; }
         </div>
     </div>
 
+    
     <div class="form-row">
         <label for="hireDate">入社日</label>
-        <input type="date"
-               id="hireDate"
-               th:field="*{hireDate}">
+        <span class="form-input-wrapper">
+            <input type="date"
+                   id="hireDate"
+                   th:field="*{hireDate}">
+            <button type="button"
+                    class="clear-button"
+                    aria-label="入社日をクリア"
+                    onclick="clearFormInput('hireDate')">×</button>
+        </span>
 
         <div class="error"
              th:if="${#fields.hasErrors('hireDate')}"
@@ -80,17 +134,25 @@ body{ font-family: Arial; margin:40px; background:#f5f5f5; }
         </div>
     </div>
 
+    
     <div class="form-row">
         <label for="retireDate">退職日</label>
-        <input type="date"
-               id="retireDate"
-               th:field="*{retireDate}">
+        <span class="form-input-wrapper">
+            <input type="date"
+                   id="retireDate"
+                   th:field="*{retireDate}">
+            <button type="button"
+                    class="clear-button"
+                    aria-label="退職日をクリア"
+                    onclick="clearFormInput('retireDate')">×</button>
+        </span>
 
         <div class="error"
              th:if="${#fields.hasErrors('retireDate')}"
              th:errors="*{retireDate}">
         </div>
     </div>
+
 
     <div class="buttons">
         <button type="submit">登録</button>
@@ -100,6 +162,14 @@ body{ font-family: Arial; margin:40px; background:#f5f5f5; }
 </form>
 
 </div>
+
+<script>
+function clearFormInput(inputId) {
+    const input = document.getElementById(inputId);
+    input.value = "";
+    input.focus();
+}
+</script>
 
 </body>
 </html>
