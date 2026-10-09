@@ -3,20 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <title>社員編集</title>
+
 <style>
 body{ font-family: Arial; margin:40px; background:#f5f5f5; }
-.form-container{ width:600px; padding:20px; background:white; }
-.form-row{ margin-bottom:15px; }
-.form-row label{ display:inline-block; width:140px; }
-.form-row input{ width:300px; padding:6px; }
-.buttons{ margin-top:20px; }
+
+.form-container{
+    width:600px;
+    padding:20px;
+    background:white;
+}
+
+.form-row{
+    margin-bottom:15px;
+}
+
+.form-row label{
+    display:inline-block;
+    width:140px;
+}
+
+.form-row input{
+    width:300px;
+    padding:6px;
+}
+
+.error{
+    color:red;
+    margin-top:5px;
+}
+
+.buttons{
+    margin-top:20px;
+}
+
 .buttons button,
 .buttons a{
     padding:8px 20px;
     margin-right:10px;
 }
 </style>
+
 </head>
+
 <body>
 
 <h1>社員編集</h1>
@@ -28,49 +56,79 @@ body{ font-family: Arial; margin:40px; background:#f5f5f5; }
       method="post">
 
     <div class="form-row">
-    <label>社員コード</label>
-    <span th:text="${employee.employeeCd}"></span>
-    <input type="hidden"
-           th:field="*{employeeCd}">
+        <label>社員コード</label>
+
+        <span th:text="${employee.employeeCd}"></span>
+
+        <input type="hidden"
+               th:field="*{employeeCd}">
     </div>
+
 
     <div class="form-row">
-    <label for="employeeName">社員名</label>
-    <input type="text"
-           id="employeeName"
-           th:field="*{employeeName}"
-           maxlength="100">
+        <label for="employeeName">社員名</label>
 
-    <div th:if="${#fields.hasErrors('employeeName')}"
-         th:errors="*{employeeName}">
+        <input type="text"
+               id="employeeName"
+               th:field="*{employeeName}"
+               maxlength="100">
+
+        <div class="error"
+             th:if="${#fields.hasErrors('employeeName')}"
+             th:errors="*{employeeName}">
+        </div>
     </div>
-    </div>
+
 
     <div class="form-row">
         <label for="email">メールアドレス</label>
+
         <input type="email"
                id="email"
                th:field="*{email}"
                maxlength="255">
+
+        <div class="error"
+             th:if="${#fields.hasErrors('email')}"
+             th:errors="*{email}">
+        </div>
     </div>
+
 
     <div class="form-row">
         <label for="hireDate">入社日</label>
+
         <input type="date"
                id="hireDate"
                th:field="*{hireDate}">
+
+        <div class="error"
+             th:if="${#fields.hasErrors('hireDate')}"
+             th:errors="*{hireDate}">
+        </div>
     </div>
+
 
     <div class="form-row">
         <label for="retireDate">退職日</label>
+
         <input type="date"
                id="retireDate"
                th:field="*{retireDate}">
+
+        <div class="error"
+             th:if="${#fields.hasErrors('retireDate')}"
+             th:errors="*{retireDate}">
+        </div>
     </div>
+
 
     <div class="buttons">
         <button type="submit">更新</button>
-        <a th:href="@{/employees/{id}(id=${employee.id})}">社員詳細へ戻る</a>
+
+        <a th:href="@{/employees/{id}(id=${employee.id})}">
+            社員詳細へ戻る
+        </a>
     </div>
 
 </form>
