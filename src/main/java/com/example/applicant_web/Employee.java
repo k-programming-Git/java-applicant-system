@@ -15,21 +15,24 @@ public class Employee {
 
     private Long id;
 
-    @NotBlank
-    @Size(max = 20)
-    @Pattern(regexp = "[A-Za-z0-9-]+")
+    @NotBlank(message = "社員コードを入力してください。")
+    @Size(max = 20, message = "社員コードは20文字以内で入力してください。")
+    @Pattern(
+    regexp = "|[A-Za-z0-9-]+",
+    message = "社員コードは半角英数字で入力してください。"
+    )
     private String employeeCd;
 
-    @NotBlank
-    @Size(max = 100)
+    @NotBlank(message = "社員名を入力してください。")
+    @Size(max = 100, message = "社員名は100文字以内で入力してください。")
     private String employeeName;
 
-    @NotBlank
-    @Email
-    @Size(max = 255)
+    @NotBlank(message = "メールアドレスを入力してください。")
+    @Email(message = "正しいメールアドレスを入力してください。")
+    @Size(max = 255, message = "メールアドレスは255文字以内で入力してください。")
     private String email;
 
-    @NotNull
+    @NotNull(message = "入社日を入力してください。")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate hireDate;
 
